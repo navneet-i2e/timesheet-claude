@@ -1,4 +1,5 @@
 import { ApplicationConfig, isDevMode } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { provideRouter, withPreloading, PreloadAllModules, withViewTransitions } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideAuth0 } from '@auth0/auth0-angular';
@@ -28,6 +29,7 @@ export const appConfig: ApplicationConfig = {
       useRefreshTokensFallback: true
     }),
 
+    MessageService,
     providePrimeNG({
       theme: {
         preset: Aura,
