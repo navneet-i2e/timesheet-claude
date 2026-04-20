@@ -1,0 +1,176 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<div class="tmpl-root">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <line x1="3" y1="9" x2="21" y2="9"/>
+          <line x1="9" y1="21" x2="9" y2="9"/>
+        </svg>
+        My Templates
+      </h1>
+      <p class="page-sub">Autofill timesheet entries from saved templates</p>
+    </div>
+    <button pButton icon="pi pi-plus" label="New Template"
+      class="p-button-sm" (click)="openNewForm()">
+    </button>
+  </div>
+
+  <!-- Autofill search bar -->
+  <div class="autofill-section">
+    <div class="autofill-label">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      Quick Autofill
+    </div>
+    <div class="autofill-input-wrap" >
+      <input
+        pInputText
+        type="text"
+        placeholder="Type to search & autofill a template..."
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchInput()"
+        class="autofill-input"
+        autocomplete="off" />
+      <svg class="autofill-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/>
+      </svg>
+
+      <!-- Suggestions dropdown -->
+      <div class="suggestions-dropdown" *ngIf="showSuggestions">
+        <div *ngFor="let s of suggestedTemplates"
+          class="suggestion-item"
+          (click)="applySuggestion(s)">
+          <div class="sug-name">{{ s.name }}</div>
+          <div class="sug-meta">{{ s.projectName }} · {{ s.defaultHours }}h</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template grid -->
+  <div class="tmpl-grid" *ngIf="!showForm">
+    <div *ngFor="let t of filteredTemplates" class="tmpl-card">
+      <div class="tmpl-card-top">
+        <div class="tmpl-name">{{ t.name }}</div>
+        <div class="tmpl-usage" pTooltip="Times used" tooltipPosition="top">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+            <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+          </svg>
+          {{ t.usageCount }}x
+        </div>
+      </div>
+      <div class="tmpl-meta">
+        <span class="tmpl-proj">{{ t.projectName }}</span>
+        <span class="tmpl-dot">·</span>
+        <span>{{ t.categoryName }}</span>
+      </div>
+      <div class="tmpl-desc">{{ t.taskDescription }}</div>
+      <div class="tmpl-tags">
+        <p-tag *ngFor="let tag of t.tags" [value]="tag" severity="secondary" styleClass="tmpl-tag"></p-tag>
+        <span class="tmpl-hours">{{ t.defaultHours }}h default</span>
+      </div>
+      <div class="tmpl-actions">
+        <button pButton icon="pi pi-bolt" label="Apply"
+          class="p-button-sm apply-btn"
+          (click)="applyTemplate(t)">
+        </button>
+        <button pButton icon="pi pi-pencil"
+          class="p-button-sm p-button-text p-button-rounded"
+          pTooltip="Edit" tooltipPosition="top"
+          (click)="editTemplate(t)">
+        </button>
+        <button pButton icon="pi pi-trash"
+          class="p-button-sm p-button-text p-button-rounded p-button-danger"
+          pTooltip="Delete" tooltipPosition="top"
+          (click)="deleteTemplate(t)">
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="filteredTemplates.length === 0" class="empty-state">
+      <div class="empty-icon">📋</div>
+      <div class="empty-text">No templates found</div>
+      <button pButton label="Create one" icon="pi pi-plus"
+        class="p-button-sm p-button-outlined mt-4"
+        (click)="openNewForm()">
+      </button>
+    </div>
+  </div>
+
+  <!-- Template Form -->
+  <div class="tmpl-form-card" *ngIf="showForm">
+    <div class="form-header">
+      <h2 class="form-title">{{ isEditing ? 'Edit Template' : 'New Template' }}</h2>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-field full-width">
+        <label>Template Name *</label>
+        <input pInputText [(ngModel)]="form.name" placeholder="e.g. Daily Dev Work — Internal" />
+      </div>
+
+      <div class="form-field">
+        <label>Project *</label>
+        <p-select
+          [options]="projects"
+          [(ngModel)]="form.projectId"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select project"
+          styleClass="w-full">
+        </p-select>
+      </div>
+
+      <div class="form-field">
+        <label>Category</label>
+        <p-select
+          [options]="categories"
+          [(ngModel)]="form.categoryId"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select category"
+          styleClass="w-full">
+        </p-select>
+      </div>
+
+      <div class="form-field full-width">
+        <label>Default Task Description</label>
+        <textarea pTextarea [(ngModel)]="form.taskDescription"
+          rows="3" placeholder="Describe the task..."></textarea>
+      </div>
+
+      <div class="form-field">
+        <label>Default Hours</label>
+        <input pInputText type="number" [(ngModel)]="form.defaultHours"
+          min="0.5" max="24" step="0.5" />
+      </div>
+
+      <div class="form-field">
+        <label>Description / Notes</label>
+        <input pInputText [(ngModel)]="form.description"
+          placeholder="Optional notes..." />
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <button pButton icon="pi pi-times" label="Cancel"
+        class="p-button-text p-button-sm" (click)="cancelForm()">
+      </button>
+      <button pButton icon="pi pi-check" label="Save Template"
+        class="p-button-sm" (click)="saveForm()">
+      </button>
+    </div>
+  </div>
+
+</div>

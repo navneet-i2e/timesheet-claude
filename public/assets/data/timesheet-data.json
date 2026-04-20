@@ -1,0 +1,248 @@
+{
+  "user": {
+    "id": "USR-001",
+    "name": "Navneet Anand",
+    "designation": "Software Developer",
+    "employeeCode": "I2E-2024-101",
+    "email": "navneet.anand@i2econsulting.com",
+    "avatar": "assets/images/avatar/yogendra.png",
+    "department": "Technology",
+    "reportingManager": "Bilal Khalid"
+  },
+
+  "timesheetMeta": {
+    "weekStartDate": "2026-04-06",
+    "weekEndDate": "2026-04-12",
+    "weekNumber": 15,
+    "year": 2026,
+    "status": "pending",
+    "submittedOn": null,
+    "approvedOn": null,
+    "approvedBy": null,
+    "totalHoursRequired": 40,
+    "totalHoursLogged": 38.5,
+    "comments": ""
+  },
+
+  "projects": [
+    {
+      "id": "PROJ-101",
+      "name": "i2e Internal Portal",
+      "code": "I2E-INT-01",
+      "client": "Internal",
+      "color": "#4F46E5"
+    },
+    {
+      "id": "PROJ-102",
+      "name": "Client ERP Migration",
+      "code": "ERP-MIG-02",
+      "client": "Acme Corp",
+      "color": "#0891B2"
+    },
+    {
+      "id": "PROJ-103",
+      "name": "Mobile App Development",
+      "code": "MOB-APP-03",
+      "client": "RetailMax",
+      "color": "#059669"
+    }
+  ],
+
+  "taskCategories": [
+    { "id": "CAT-01", "label": "Development" },
+    { "id": "CAT-02", "label": "Testing / QA" },
+    { "id": "CAT-03", "label": "Code Review" },
+    { "id": "CAT-04", "label": "Meeting / Discussion" },
+    { "id": "CAT-05", "label": "Documentation" },
+    { "id": "CAT-06", "label": "Research / Analysis" },
+    { "id": "CAT-07", "label": "Deployment" },
+    { "id": "CAT-08", "label": "Support / Bug Fix" }
+  ],
+
+  "weekDays": [
+    { "day": "Monday",    "date": "2026-04-06", "isHoliday": false, "isWeekend": false },
+    { "day": "Tuesday",   "date": "2026-04-07", "isHoliday": false, "isWeekend": false },
+    { "day": "Wednesday", "date": "2026-04-08", "isHoliday": false, "isWeekend": false },
+    { "day": "Thursday",  "date": "2026-04-09", "isHoliday": false, "isWeekend": false },
+    { "day": "Friday",    "date": "2026-04-10", "isHoliday": false, "isWeekend": false },
+    { "day": "Saturday",  "date": "2026-04-11", "isHoliday": false, "isWeekend": true  },
+    { "day": "Sunday",    "date": "2026-04-12", "isHoliday": false, "isWeekend": true  }
+  ],
+
+  "timesheetEntries": [
+    {
+      "id": "TS-001",
+      "projectId": "PROJ-101",
+      "taskCategoryId": "CAT-01",
+      "taskDescription": "Implemented lazy loading for dashboard and auth modules in Angular",
+      "date": "2026-04-06",
+      "hoursLogged": 4,
+      "isEditable": true
+    },
+    {
+      "id": "TS-002",
+      "projectId": "PROJ-102",
+      "taskCategoryId": "CAT-04",
+      "taskDescription": "Sprint planning meeting with client Acme Corp team",
+      "date": "2026-04-06",
+      "hoursLogged": 2,
+      "isEditable": true
+    },
+    {
+      "id": "TS-003",
+      "projectId": "PROJ-103",
+      "taskCategoryId": "CAT-01",
+      "taskDescription": "Developed product listing and cart screens for RetailMax mobile app",
+      "date": "2026-04-06",
+      "hoursLogged": 2,
+      "isEditable": true
+    },
+    {
+      "id": "TS-004",
+      "projectId": "PROJ-102",
+      "taskCategoryId": "CAT-01",
+      "taskDescription": "ERP database schema migration scripts — Phase 2",
+      "date": "2026-04-07",
+      "hoursLogged": 5,
+      "isEditable": true
+    },
+    {
+      "id": "TS-005",
+      "projectId": "PROJ-101",
+      "taskCategoryId": "CAT-03",
+      "taskDescription": "Code review for PR #45 — Timesheet module refactor",
+      "date": "2026-04-07",
+      "hoursLogged": 1.5,
+      "isEditable": true
+    },
+    {
+      "id": "TS-006",
+      "projectId": "PROJ-103",
+      "taskCategoryId": "CAT-02",
+      "taskDescription": "Unit testing for checkout flow — wrote 18 test cases",
+      "date": "2026-04-07",
+      "hoursLogged": 1.5,
+      "isEditable": true
+    },
+    {
+      "id": "TS-007",
+      "projectId": "PROJ-101",
+      "taskCategoryId": "CAT-01",
+      "taskDescription": "Built header and sidebar layout using Tailwind CSS",
+      "date": "2026-04-08",
+      "hoursLogged": 3,
+      "isEditable": true
+    },
+    {
+      "id": "TS-008",
+      "projectId": "PROJ-102",
+      "taskCategoryId": "CAT-06",
+      "taskDescription": "Analysed ERP reporting requirements and drafted solution document",
+      "date": "2026-04-08",
+      "hoursLogged": 3,
+      "isEditable": true
+    },
+    {
+      "id": "TS-009",
+      "projectId": "PROJ-103",
+      "taskCategoryId": "CAT-08",
+      "taskDescription": "Fixed critical payment gateway crash bug reported by QA",
+      "date": "2026-04-08",
+      "hoursLogged": 2,
+      "isEditable": true
+    },
+    {
+      "id": "TS-010",
+      "projectId": "PROJ-102",
+      "taskCategoryId": "CAT-07",
+      "taskDescription": "Deployed ERP migration phase 1 to staging environment",
+      "date": "2026-04-09",
+      "hoursLogged": 2,
+      "isEditable": true
+    },
+    {
+      "id": "TS-011",
+      "projectId": "PROJ-101",
+      "taskCategoryId": "CAT-05",
+      "taskDescription": "Updated API documentation for timesheet and report endpoints",
+      "date": "2026-04-09",
+      "hoursLogged": 2,
+      "isEditable": true
+    },
+    {
+      "id": "TS-012",
+      "projectId": "PROJ-103",
+      "taskCategoryId": "CAT-01",
+      "taskDescription": "Integrated push notification service in mobile app",
+      "date": "2026-04-09",
+      "hoursLogged": 4,
+      "isEditable": true
+    },
+    {
+      "id": "TS-013",
+      "projectId": "PROJ-101",
+      "taskCategoryId": "CAT-01",
+      "taskDescription": "Developed report export feature — PDF and Excel support",
+      "date": "2026-04-10",
+      "hoursLogged": 4,
+      "isEditable": true
+    },
+    {
+      "id": "TS-014",
+      "projectId": "PROJ-102",
+      "taskCategoryId": "CAT-04",
+      "taskDescription": "Weekly status call with Acme Corp project stakeholders",
+      "date": "2026-04-10",
+      "hoursLogged": 1,
+      "isEditable": true
+    },
+    {
+      "id": "TS-015",
+      "projectId": "PROJ-103",
+      "taskCategoryId": "CAT-02",
+      "taskDescription": "End-to-end regression testing before release build",
+      "date": "2026-04-10",
+      "hoursLogged": 2,
+      "isEditable": true
+    }
+  ],
+
+  "summary": {
+    "byDay": [
+      { "date": "2026-04-06", "day": "Monday",    "totalHours": 8   },
+      { "date": "2026-04-07", "day": "Tuesday",   "totalHours": 8   },
+      { "date": "2026-04-08", "day": "Wednesday", "totalHours": 8   },
+      { "date": "2026-04-09", "day": "Thursday",  "totalHours": 8   },
+      { "date": "2026-04-10", "day": "Friday",    "totalHours": 7   },
+      { "date": "2026-04-11", "day": "Saturday",  "totalHours": 0   },
+      { "date": "2026-04-12", "day": "Sunday",    "totalHours": 0   }
+    ],
+    "byProject": [
+      { "projectId": "PROJ-101", "projectName": "i2e Internal Portal",    "totalHours": 14.5 },
+      { "projectId": "PROJ-102", "projectName": "Client ERP Migration",   "totalHours": 13   },
+      { "projectId": "PROJ-103", "projectName": "Mobile App Development", "totalHours": 11   }
+    ],
+    "byCategory": [
+      { "categoryId": "CAT-01", "label": "Development",          "totalHours": 20   },
+      { "categoryId": "CAT-02", "label": "Testing / QA",         "totalHours": 3.5  },
+      { "categoryId": "CAT-03", "label": "Code Review",          "totalHours": 1.5  },
+      { "categoryId": "CAT-04", "label": "Meeting / Discussion",  "totalHours": 3    },
+      { "categoryId": "CAT-05", "label": "Documentation",        "totalHours": 2    },
+      { "categoryId": "CAT-06", "label": "Research / Analysis",  "totalHours": 3    },
+      { "categoryId": "CAT-07", "label": "Deployment",           "totalHours": 2    },
+      { "categoryId": "CAT-08", "label": "Support / Bug Fix",    "totalHours": 2    }
+    ]
+  },
+
+  "statusOptions": [
+    { "value": "draft",     "label": "Draft",     "color": "gray"   },
+    { "value": "pending",   "label": "Pending",   "color": "yellow" },
+    { "value": "approved",  "label": "Approved",  "color": "green"  },
+    { "value": "rejected",  "label": "Rejected",  "color": "red"    }
+  ],
+
+  "holidays": [
+    { "date": "2026-04-14", "name": "Ambedkar Jayanti" },
+    { "date": "2026-04-21", "name": "Ram Navami"       }
+  ]
+}

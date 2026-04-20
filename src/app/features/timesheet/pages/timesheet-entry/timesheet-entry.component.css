@@ -1,0 +1,333 @@
+.ts-root {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+}
+
+/* ── Header bar ─────────────────────────────────────────── */
+.date-view-header {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+.date-view-header::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--gradient-accent);
+}
+
+.date-nav-group { display: flex; align-items: center; gap: 8px; }
+
+.date-picker-main {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  outline: none;
+  min-width: 160px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+.date-picker-main:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-muted);
+}
+
+.nav-btn {
+  width: 32px; height: 32px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.nav-btn:hover:not(:disabled) {
+  background: var(--accent-muted);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ── Time stats — refined, not heavy ── */
+.time-info { display: flex; gap: 28px; flex-wrap: wrap; align-items: center; }
+
+.time-item { display: flex; flex-direction: column; gap: 2px; }
+
+.time-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+/* Clean, readable value — not overbold */
+.time-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.hours-highlight { color: var(--accent); }
+.hours-warning   { color: var(--warn); }
+
+/* ── Table ──────────────────────────────────────────────── */
+.date-view-table {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: visible;
+  box-shadow: var(--shadow-card);
+}
+
+.table-header-row,
+.table-body-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 24%) minmax(140px, 20%) 1fr 80px 80px 52px;
+  gap: 12px;
+  padding: 11px 16px;
+  align-items: center;
+}
+
+.table-header {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  border-radius: 14px 14px 0 0;
+}
+.table-header-row {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+}
+
+.table-body-row {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.table-body-row:hover   { background: var(--bg-surface); }
+.table-body-row:last-child { border-bottom: none; }
+
+/* Empty state */
+.table-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--text-muted);
+}
+.table-empty-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+.table-empty-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+.table-empty-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ── Dropdown cells ── */
+.td-project, .td-activity {
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+:host ::ng-deep .td-project p-select,
+:host ::ng-deep .td-activity p-select {
+  display: block !important;
+  width: 100% !important;
+}
+:host ::ng-deep .td-project .p-select,
+:host ::ng-deep .td-activity .p-select {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  border-radius: 7px !important;
+  background: var(--bg-input) !important;
+  border-color: var(--border) !important;
+  display: flex !important;
+  align-items: center !important;
+}
+:host ::ng-deep .td-project .p-select-label,
+:host ::ng-deep .td-activity .p-select-label {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-size: 13px !important;
+  display: block !important;
+  color: var(--text-primary) !important;
+  padding: 8px 10px !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+/* Dropdown chevron — don't let it shrink away */
+:host ::ng-deep .td-project .p-select-dropdown,
+:host ::ng-deep .td-activity .p-select-dropdown {
+  flex-shrink: 0 !important;
+  width: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+/* Dropdown panel inside timesheet — always theme-aware */
+:host ::ng-deep .td-project .p-select-overlay,
+:host ::ng-deep .td-activity .p-select-overlay {
+  background: var(--overlay-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.3) !important;
+}
+:host ::ng-deep .td-project .p-select-option,
+:host ::ng-deep .td-activity .p-select-option {
+  color: var(--overlay-text) !important;
+  font-size: 13px !important;
+}
+:host ::ng-deep .td-project .p-select-option:hover,
+:host ::ng-deep .td-activity .p-select-option:hover {
+  background: var(--overlay-item-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ── Text inputs ── */
+.table-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 7px 10px;
+  font-size: 13px;
+  color: var(--text-primary);
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+.table-input::placeholder { color: var(--text-muted); }
+.table-input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-muted);
+  background: var(--bg-card);
+}
+.td-hours .table-input,
+.td-minutes .table-input { text-align: center; }
+
+/* ── Footer ── */
+.table-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-surface);
+  border-radius: 0 0 14px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Toast ── */
+:host ::ng-deep .p-toast { z-index: 9999 !important; }
+
+/* ══════════════════════════════════════════════════════════
+   TIMESHEET POLISH — Animations & UX
+══════════════════════════════════════════════════════════ */
+
+/* ── Page entrance ── */
+.ts-root {
+  animation: page-fade-in 0.35s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header bar entrance ── */
+.date-view-header {
+  animation: page-fade-in 0.4s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* ── Table rows stagger in ── */
+@keyframes row-enter {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.table-body-row {
+  animation: row-enter 0.25s ease both;
+}
+.table-body-row:nth-child(1) { animation-delay: 0.05s; }
+.table-body-row:nth-child(2) { animation-delay: 0.10s; }
+.table-body-row:nth-child(3) { animation-delay: 0.15s; }
+.table-body-row:nth-child(4) { animation-delay: 0.20s; }
+.table-body-row:nth-child(5) { animation-delay: 0.25s; }
+.table-body-row:nth-child(n+6) { animation-delay: 0.28s; }
+
+/* ── Empty state icon bounce ── */
+.table-empty-icon {
+  animation: empty-bounce 2.5s ease-in-out infinite;
+}
+@keyframes empty-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+/* ── Nav buttons pulse on hover ── */
+.nav-btn:hover:not(:disabled) {
+  transform: scale(1.1);
+  transition: transform 0.15s ease, background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+/* ── Time values highlight on change ── */
+.hours-highlight, .hours-warning {
+  transition: color 0.3s ease;
+}
+
+/* ── Submit button shimmer ── */
+.action-buttons .p-button {
+  position: relative;
+  overflow: hidden;
+}
+.action-buttons .p-button::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+}
+.action-buttons .p-button:hover::after { left: 150%; }
+
+/* ── Input focus glow ── */
+.table-input:focus {
+  transform: scale(1.01);
+  transition: transform 0.15s ease, border-color 0.2s, box-shadow 0.2s;
+}
+
+/* ── Add row button bounce ── */
+.table-footer .p-button:hover {
+  transform: translateY(-2px);
+  transition: transform 0.15s ease;
+}
+
+/* ── Table card entrance ── */
+.date-view-table {
+  animation: page-fade-in 0.45s cubic-bezier(0.16,1,0.3,1) 0.1s both;
+}

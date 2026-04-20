@@ -1,0 +1,7 @@
+.route-transition-wrap {
+  position: relative;
+  width: 100%;
+}
+.route-transition-wrap > * {
+  width: 100%;
+}

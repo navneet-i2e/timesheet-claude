@@ -1,0 +1,319 @@
+<!-- src/app/features/dashboard-home/dashboard-home.component.html -->
+
+<div class="dash-root">
+
+  <!-- ══════════════════════════════════════════════════════
+       LOADING SKELETONS
+  ══════════════════════════════════════════════════════ -->
+  <ng-container *ngIf="loading">
+    <div class="dash-skeleton">
+      <div class="skel-header">
+        <p-skeleton width="220px" height="28px" borderRadius="8px" styleClass="skel-item"></p-skeleton>
+        <p-skeleton width="120px" height="32px" borderRadius="20px" styleClass="skel-item"></p-skeleton>
+      </div>
+      <div class="skel-kpi-row">
+        <p-skeleton *ngFor="let i of [1,2,3,4]" height="108px" borderRadius="14px" styleClass="skel-item"></p-skeleton>
+      </div>
+      <div class="skel-mid-row">
+        <p-skeleton height="260px" borderRadius="14px" styleClass="skel-item" style="flex:2"></p-skeleton>
+        <p-skeleton height="260px" borderRadius="14px" styleClass="skel-item" style="flex:1.2"></p-skeleton>
+      </div>
+      <p-skeleton height="200px" borderRadius="14px" styleClass="skel-item"></p-skeleton>
+    </div>
+  </ng-container>
+
+  <!-- ══════════════════════════════════════════════════════
+       ERROR STATE
+  ══════════════════════════════════════════════════════ -->
+  <div *ngIf="error && !loading" class="dash-error">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       MAIN DASHBOARD
+  ══════════════════════════════════════════════════════ -->
+  <ng-container *ngIf="!loading && !error && vm">
+
+    <!-- ── Punch In/Out Quick Widget ──────────────────────── -->
+    <!-- ── Punch In/Out Widget - Clean Card Style (like HOURS LOGGED) ──────────────────────── -->
+    <div class="punch-widget">
+      <div class="pw-card">
+        <div class="pw-header">
+          <span class="pw-title">Mark Attendance - Friday, Apr 17</span>
+        </div>
+
+        <div class="pw-content">
+          <!-- IN -->
+          <div class="pw-time-box pw-in-box" [class.pw-in-active]="isPunchedIn || isPunchedOut">
+            <span class="pw-label">IN</span>
+            <span class="pw-time">{{ punchInTimeStr }}</span>
+          </div>
+
+          <!-- OUT -->
+          <div class="pw-time-box pw-out-box" *ngIf="isPunchedOut">
+            <span class="pw-label">OUT</span>
+            <span class="pw-time">{{ punchOutTimeStr }}</span>
+          </div>
+
+          <!-- Total -->
+          <!-- <div class="pw-total" *ngIf="isPunchedOut">
+            <span class="pw-total-label">Total</span>
+            <span class="pw-total-hours">{{ totalHours }} hrs</span>
+          </div> -->
+        </div>
+      </div>
+
+      <div class="pw-action">
+        <button pButton [label]="isPunchedIn ? 'TIME OUT' : 'Punch In'"
+          [class]="isPunchedIn ? 'p-button-sm p-button-danger pw-timeout-btn' : 'p-button-sm pw-punchin-btn'"
+          [disabled]="isPunchedOut" (click)="togglePunch()">
+          <i [class]="isPunchedIn ? 'pi pi-stop-circle' : 'pi pi-play-circle'" style="margin-right: 8px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Pending Timesheets Widget ──────────────────────── -->
+    <div class="pending-ts-widget">
+      <h3 class="ptw-title">Pending Timesheet</h3>
+
+      <div class="ptw-chips-container">
+        <ng-container *ngIf="pendingTimesheets.length > 0; else noTimesheets">
+          <button *ngFor="let ts of pendingTimesheets" class="ptw-chip" (click)="goToTimesheetOnDate(ts.date)">
+            {{ ts.date | date:'dd MMM, yyyy' }}
+          </button>
+        </ng-container>
+
+        <ng-template #noTimesheets>
+          <div class="ptw-empty">
+            <i class="pi pi-check-circle"></i>
+            <p>No pending timesheets</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- ── Page header ───────────────────────────────────── -->
+    <div class="page-header">
+      <div class="page-header__left">
+        <div class="user-greeting">
+          <div class="user-avatar-wrap">
+            <p-avatar [label]="getInitials(vm.user.name)" shape="circle" size="large"
+              styleClass="user-avatar"></p-avatar>
+            <span class="online-dot"></span>
+          </div>
+          <div>
+            <h1 class="greeting-title">Good Morning, {{ vm.user.name.split(' ')[0] }} 👋</h1>
+            <p class="greeting-sub">{{ vm.user.designation }} · {{ vm.user.employeeCode }}</p>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <!-- ── KPI row ────────────────────────────────────────── -->
+    <!-- KPI Row with PrimeNG Icons -->
+    <div class="kpi-row">
+      <div *ngFor="let kpi of vm.kpis; trackBy: trackByKpi" class="kpi-card {{ kpi.colorClass }}">
+
+        <div class="kpi-card__top">
+          <!-- PrimeNG Icon -->
+          <span class="kpi-icon-wrap">
+            <i [ngClass]="getKpiIconClass(kpi.icon)"></i>
+          </span>
+          <span class="kpi-title">{{ kpi.title }}</span>
+        </div>
+
+        <div class="kpi-value">{{ getKpiDisplayValue(kpi) }}</div>
+        <div class="kpi-sub">{{ kpi.subtitle }}</div>
+
+        <div class="kpi-trend {{ getTrendClass(kpi.trend, kpi.icon) }}">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75"
+            stroke-linecap="round" stroke-linejoin="round" [innerHTML]="getTrendIcon(kpi.trend)">
+          </svg>
+          <span>{{ kpi.trendLabel }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Mid row: Bar chart + Donut ────────────────────── -->
+    <div class="mid-row">
+
+      <!-- Daily hours bar chart -->
+      <div class="card chart-card">
+        <div class="card__header">
+          <span class="card__title">Daily Hours — Week {{ vm.meta.weekNumber }}</span>
+          <span class="card__badge">{{ vm.meta.totalHoursLogged }}h / {{ vm.meta.totalHoursRequired }}h</span>
+        </div>
+        <div class="chart-wrap">
+          <p-chart type="bar" [data]="barChartData" [options]="barChartOptions"></p-chart>
+        </div>
+      </div>
+
+      <!-- Category donut -->
+      <div class="card chart-card">
+        <div class="card__header">
+          <span class="card__title">Hours by Category</span>
+        </div>
+        <div class="chart-wrap">
+          <p-chart type="doughnut" [data]="donutChartData" [options]="donutChartOptions"></p-chart>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Project Assigned (exact match to screenshot) ───── -->
+    <section class="card section-projects">
+      <div class="section-projects__header">
+        <span class="card__title">Project Assigned</span>
+        <button pButton icon="pi pi-plus" label="New Project Access" class="p-button-sm p-button-text new-proj-btn"
+          (click)="openProjectModal()">
+        </button>
+        <button *ngIf="roleService.isAdmin()" pButton icon="pi pi-plus" label="Add New Project" class="p-button-sm p-button-text"
+          (click)="openAdminProjectModal()">
+        </button>
+      </div>
+
+      <!-- Legend -->
+      <div class="proj-legend">
+        <span class="legend-item">
+          <span class="legend-dot" style="background:#6366f1"></span> Actual Hours
+        </span>
+        <span class="legend-item">
+          <span class="legend-dot" style="background:rgba(100,116,139,0.4)"></span> Estimated Hours
+        </span>
+        <span class="legend-item">
+          <span class="legend-dot" style="background:#22c55e"></span> Completed Hours
+        </span>
+        <span class="legend-item">
+          <span class="legend-dot" style="background:#ef4444"></span> Extra Hours
+        </span>
+      </div>
+
+      <!-- Project bars -->
+      <div class="proj-list">
+        <div *ngFor="let p of vm.projectBars; trackBy: trackByProject" class="proj-row">
+          <div class="proj-row__meta">
+            <span class="proj-name">{{ p.name }}</span>
+            <span class="proj-client">{{ p.client }}</span>
+          </div>
+
+          <div class="proj-row__bar-area">
+            <div class="proj-bar-track">
+              <!-- Completed portion -->
+              <div class="proj-bar-fill" [class.bar-animated]="barsAnimated"
+                [style.--bar-width]="(p.overrun ? (p.requiredHours / p.totalHours * 100) : p.pct) + '%'"
+                [style.background]="p.color"></div>
+              <!-- Extra hours overrun -->
+              <div *ngIf="p.overrun" class="proj-bar-overrun" [class.bar-animated]="barsAnimated"
+                [style.--bar-width]="((p.totalHours - p.requiredHours) / p.totalHours * 100) + '%'"></div>
+            </div>
+          </div>
+
+          <div class="proj-row__hours" [class.hours-over]="p.overrun"
+            pTooltip="Actual: {{p.totalHours}}h  |  Estimated: {{p.requiredHours}}h" tooltipPosition="top">
+            {{ p.totalHours }} / {{ p.requiredHours }}
+          </div>
+        </div>
+
+        <!-- Hours label row -->
+        <div class="proj-hours-label-row">
+          <span></span><span></span>
+          <span class="proj-hours-label">Actual Hours / Estimated Hours</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Recent entries quick-view ─────────────────────── -->
+    <section class="card section-entries">
+      <div class="card__header">
+        <span class="card__title">This Week's Entries</span>
+        <span class="card__badge badge-neutral">{{ vm.meta.weekNumber === 15 ? '15 entries' : '' }}</span>
+      </div>
+
+      <div class="entries-grid">
+        <div *ngFor="let day of vm.byDay" class="entry-day-cell" [class.entry-day-cell--weekend]="day.totalHours === 0"
+          [class.entry-day-cell--full]="day.totalHours >= 8"
+          [class.entry-day-cell--partial]="day.totalHours > 0 && day.totalHours < 8">
+          <div class="entry-day-name">{{ day.day.substring(0,3) }}</div>
+          <div class="entry-hours">{{ day.totalHours > 0 ? day.totalHours + 'h' : '—' }}</div>
+          <div class="entry-day-bar">
+            <div class="entry-day-bar-fill" [class.bar-animated]="barsAnimated"
+              [style.--bar-height]="(day.totalHours / 10) * 100 + '%'"
+              [class.bar-full]="day.totalHours >= 8" [class.bar-partial]="day.totalHours > 0 && day.totalHours < 8">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </ng-container>
+</div>
+
+<!-- ── Project Access Modal ──────────────────────────────────── -->
+<p-toast></p-toast>
+
+<p-dialog [(visible)]="showProjectModal" [modal]="true" [draggable]="false" [resizable]="false"
+  styleClass="project-modal" [style]="{ width: '520px', maxWidth: '95vw' }" header="Request Project Access">
+
+  <!-- Search bar -->
+  <div class="modal-search-wrap">
+    <span class="modal-search-icon">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    </span>
+    <input pInputText [(ngModel)]="projectSearch" placeholder="Search by code, name or client…"
+      class="modal-search-input" />
+    <button *ngIf="projectSearch" class="modal-search-clear" (click)="clearProjectSearch()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Selection count badge -->
+  <div class="modal-count-row" *ngIf="selectedCount > 0">
+    <span class="modal-count-badge">{{ selectedCount }} selected</span>
+    <button class="modal-clear-sel" (click)="allProjects.forEach(p => p.selected = false)">
+      Clear all
+    </button>
+  </div>
+
+  <!-- Project list -->
+  <div class="project-list">
+    <label *ngFor="let proj of filteredProjects; trackBy: trackByCode" class="project-row"
+      [class.project-row--selected]="proj.selected">
+      <p-checkbox [(ngModel)]="proj.selected" [binary]="true" styleClass="proj-checkbox"></p-checkbox>
+      <div class="project-row__info">
+        <span class="project-row__code">{{ proj.code }}</span>
+        <span class="project-row__name">{{ proj.name }}</span>
+      </div>
+      <span class="project-row__client">{{ proj.client }}</span>
+    </label>
+    <div *ngIf="filteredProjects.length === 0" class="project-empty">
+      No projects match "{{ projectSearch }}"
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="modal-footer">
+      <span class="modal-footer-hint">Select projects to request manager approval</span>
+      <div class="modal-footer-btns">
+        <button pButton label="Cancel" class="p-button-sm p-button-outlined"
+          (click)="showProjectModal = false"></button>
+        <button pButton label="Request Access" icon="pi pi-send" class="p-button-sm" [disabled]="selectedCount === 0"
+          (click)="requestProjectAccess()"></button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

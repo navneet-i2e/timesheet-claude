@@ -1,0 +1,110 @@
+<p-toast position="top-right"></p-toast>
+
+<div class="ts-root">
+
+  <!-- Header -->
+  <div class="date-view-header">
+    <div class="date-nav-group">
+      <button class="nav-btn" (click)="prevPendingDate()" [disabled]="currentPendingIndex === 0">←</button>
+      <input type="date" class="date-picker-main" [(ngModel)]="selectedDate" (change)="cdr.markForCheck()">
+      <button class="nav-btn" (click)="nextPendingDate()"
+        [disabled]="currentPendingIndex === pendingDates.length - 1">→</button>
+    </div>
+
+    <div class="time-info">
+      <div class="time-item">
+        <span class="time-label">Total Hours Today</span>
+        <span class="time-value hours-highlight">{{ getSelectedDayTotalFormatted() }}</span>
+      </div>
+      <div class="time-item">
+        <span class="time-label">Hours Remaining</span>
+        <span class="time-value" [class.hours-warning]="getSelectedDayTotalInternal() < REQUIRED_DAILY_HOURS">
+          {{ getHoursRemaining() }}
+        </span>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button pButton label="Submit Timesheet" icon="pi pi-check" (click)="submitTimesheet()" severity="success"
+        style="min-width: 180px;">
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="date-view-table">
+
+    <div class="table-header">
+      <div class="table-header-row">
+        <div class="th-project">Project</div>
+        <div class="th-activity">Activity</div>
+        <div class="th-description">Description</div>
+        <div class="th-hours">Hours</div>
+        <div class="th-minutes">Minutes</div>
+        <div class="th-actions">Actions</div>
+      </div>
+    </div>
+
+    <div class="table-body">
+
+      <!-- Empty -->
+      <div *ngIf="rows.length === 0" class="table-empty">
+        <div class="table-empty-icon"><i class="pi pi-inbox"></i></div>
+        <div class="table-empty-text">No entries yet</div>
+        <div class="table-empty-sub">Click "Add Row" below to log your hours</div>
+      </div>
+
+      <!-- Rows -->
+      <div *ngFor="let row of rows; let i = index" class="table-body-row">
+
+        <!-- ✅ Project -->
+        <div class="td-project">
+          <p-select [options]="projects" [(ngModel)]="row.projectId" optionLabel="label" optionValue="value"
+            placeholder="Select Project" class="table-select" [style]="{'width':'100%'}" appendTo="body">
+          </p-select>
+        </div>
+
+        <!-- ✅ Activity -->
+        <div class="td-activity">
+          <p-select [options]="categories" [(ngModel)]="row.categoryId" optionLabel="label" optionValue="value"
+            placeholder="Activity" class="table-select" [style]="{'width':'100%'}" appendTo="body">
+          </p-select>
+        </div>
+
+        <!-- Description -->
+        <div class="td-description">
+          <input type="text" class="table-input" [(ngModel)]="row.description" placeholder="Task description">
+        </div>
+
+        <!-- ✅ Hours -->
+        <div class="td-hours">
+          <input type="number" class="table-input" [ngModel]="getHours(row, selectedDate!)"
+            (ngModelChange)="setHours(row, selectedDate!, $event)" min="0" max="24" placeholder="8">
+        </div>
+
+        <!-- ✅ Minutes -->
+        <div class="td-minutes">
+          <input type="number" class="table-input" [ngModel]="getMinutes(row, selectedDate!)"
+            (ngModelChange)="setMinutes(row, selectedDate!, $event)" min="0" max="59" placeholder="30">
+        </div>
+
+        <!-- Delete -->
+        <div class="td-actions">
+          <button pButton icon="pi pi-trash" severity="danger" (click)="removeRow(i)" pTooltip="Delete row"
+            style="padding: 6px 10px;">
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="table-footer">
+      <button pButton label="Add Row" icon="pi pi-plus" (click)="addRow()" severity="secondary">
+      </button>
+    </div>
+
+  </div>
+
+
+</div>

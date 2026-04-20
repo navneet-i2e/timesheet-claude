@@ -1,0 +1,44 @@
+{
+  "brand": {
+    "name": "I2E Consulting Timesheet",
+    "icon": "⚡",
+    "tagline": "Productivity Platform"
+  },
+  "navItems": [
+    {
+      "id": "home",
+      "label": "Home",
+      "route": "/home",
+      "icon": "home",
+      "active": true
+    },
+    {
+      "id": "timesheet",
+      "label": "Timesheet",
+      "route": "/timesheet",
+      "icon": "clock",
+      "active": false
+    },
+    {
+      "id": "my-template",
+      "label": "My Template",
+      "route": "/my-template",
+      "icon": "layout-template",
+      "active": false
+    },
+    {
+      "id": "report",
+      "label": "Report",
+      "route": "/report",
+      "icon": "bar-chart-2",
+      "active": false
+    },
+    {
+      "id": "help",
+      "label": "Help",
+      "route": "/help",
+      "icon": "help-circle",
+      "active": false
+    }
+  ]
+}

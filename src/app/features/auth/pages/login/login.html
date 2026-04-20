@@ -1,0 +1,36 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <div class="login-logo">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+           stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </svg>
+    </div>
+
+    <h1 class="login-title">I2E Timesheet</h1>
+    <p class="login-subtitle">Sign in to manage your timesheets</p>
+
+    <div class="login-divider"></div>
+
+    <div *ngIf="authMessage" class="login-message login-message--warn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span>{{ authMessage }}</span>
+    </div>
+
+    <button pButton
+      label="Sign in with Auth0"
+      icon="pi pi-sign-in"
+      class="p-button-lg login-btn"
+      (click)="login()">
+    </button>
+
+    <p class="login-footer">Secure authentication powered by Auth0</p>
+  </div>
+</div>

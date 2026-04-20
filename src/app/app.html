@@ -1,0 +1,15 @@
+<ng-container *ngIf="(auth.isAuthenticated$ | async); else publicLayout">
+  <app-header></app-header>
+  <div class="page-wrapper">
+    <div class="route-transition-wrap" [@routeFade]="getRouteState(outlet)">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</ng-container>
+
+<ng-template #publicLayout>
+  <div [@routeFade]="getRouteState(pubOutlet)">
+    <router-outlet #pubOutlet="outlet"></router-outlet>
+  </div>
+</ng-template>

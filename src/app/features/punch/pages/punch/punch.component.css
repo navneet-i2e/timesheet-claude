@@ -1,0 +1,274 @@
+.punch-root { max-width: 900px; margin: 0 auto; padding: 28px 24px 40px; }
+
+.page-header { margin-bottom: 28px; }
+.page-title {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0 0 4px;
+}
+.page-sub { color: var(--text-secondary); font-size: 13px; margin: 0; }
+
+/* Hero card */
+.punch-hero {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 32px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-card);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 28px;
+  text-align: center;
+}
+
+/* Clock */
+.punch-clock { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.clock-label {
+  font-size: 12px; font-weight: 600;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: .1em;
+}
+.clock-label--active { color: var(--accent); }
+.clock-display {
+  font-size: 56px; font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -2px;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s;
+}
+.clock-active { color: var(--accent); }
+.clock-pulse  {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--success); font-weight: 600;
+}
+.pulse-dot {
+  width: 8px; height: 8px;
+  background: var(--success); border-radius: 50%;
+  animation: ping 1.2s ease-in-out infinite;
+}
+@keyframes ping {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0.5; }
+}
+
+/* Stats */
+.punch-stats {
+  display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;
+}
+.stat-card {
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 28px; text-align: center;
+}
+.stat-val   { font-size: 24px; font-weight: 800; color: var(--text-primary); }
+.stat-label { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+/* Note */
+.note-wrap { width: 100%; max-width: 400px; }
+.note-input {
+  width: 100% !important;
+  background: var(--bg-input) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+  border-radius: 10px !important;
+  text-align: center;
+  font-size: 14px !important;
+}
+.note-input:focus { border-color: var(--border-focus) !important; }
+
+/* Punch button */
+.punch-btn-wrap { display: flex; justify-content: center; }
+.punch-btn {
+  display: flex; align-items: center; gap: 12px;
+  padding: 18px 48px;
+  border-radius: 50px;
+  border: none;
+  font-size: 18px; font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  letter-spacing: .02em;
+}
+.punch-btn:hover        { transform: scale(1.04); }
+.punch-btn:active       { transform: scale(0.97); }
+.punch-btn--in {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(99,102,241,0.45);
+}
+.punch-btn--out {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(239,68,68,0.35);
+}
+
+.active-note {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text-muted);
+}
+
+/* History */
+.history-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.history-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 20px; border-bottom: 1px solid var(--border);
+}
+.history-title { font-weight: 700; font-size: 15px; color: var(--text-primary); }
+
+.role-notice {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 20px;
+  font-size: 12px; color: var(--text-secondary);
+  background: var(--accent-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Table overrides */
+:host ::ng-deep .punch-table .p-datatable-header-cell {
+  background: var(--bg-surface) !important;
+  color: var(--text-secondary) !important;
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .05em;
+  border-color: var(--border) !important;
+}
+:host ::ng-deep .punch-table .p-datatable-body-row {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+  transition: background 0.15s;
+}
+:host ::ng-deep .punch-table .p-datatable-body-row:hover { background: var(--bg-surface) !important; }
+:host ::ng-deep .punch-table .row-active { background: rgba(99,102,241,0.05) !important; }
+
+.time-cell {}
+.time-badge {
+  font-size: 12px; font-weight: 700;
+  border-radius: 6px; padding: 3px 10px;
+}
+.time-in   { background: rgba(34,197,94,0.15);  color: var(--success); }
+.time-out  { background: rgba(239,68,68,0.12);  color: var(--danger); }
+.time-live {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(99,102,241,0.15); color: var(--accent);
+}
+.live-dot {
+  width: 6px; height: 6px; background: var(--accent);
+  border-radius: 50%; animation: ping 1.2s ease-in-out infinite;
+}
+.dur-chip {
+  font-size: 12px; font-weight: 700;
+  background: var(--bg-surface); border-radius: 6px;
+  padding: 2px 10px; color: var(--text-primary);
+}
+.dur-live { color: var(--accent); background: var(--accent-muted); }
+.note-cell { font-size: 12px; color: var(--text-secondary); max-width: 200px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.empty-row { text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px; }
+
+/* ══════════════════════════════════════════════════════════
+   PUNCH PAGE POLISH — Animations & UX
+══════════════════════════════════════════════════════════ */
+
+/* ── Page entrance ── */
+.punch-root {
+  animation: page-fade-in 0.35s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Hero card entrance ── */
+.punch-hero {
+  animation: page-fade-in 0.4s cubic-bezier(0.16,1,0.3,1) 0.05s both;
+}
+
+/* ── Stat cards stagger ── */
+@keyframes stat-enter {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.stat-card {
+  animation: stat-enter 0.35s ease both;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.punch-stats .stat-card:nth-child(1) { animation-delay: 0.15s; }
+.punch-stats .stat-card:nth-child(2) { animation-delay: 0.22s; }
+.punch-stats .stat-card:nth-child(3) { animation-delay: 0.29s; }
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* ── Punch button glow pulse when idle ── */
+.punch-btn--in {
+  animation: btn-glow-idle 3s ease-in-out infinite;
+}
+@keyframes btn-glow-idle {
+  0%, 100% { box-shadow: 0 8px 32px rgba(99,102,241,0.45); }
+  50%       { box-shadow: 0 8px 48px rgba(99,102,241,0.7); }
+}
+.punch-btn--out {
+  animation: btn-glow-out 2.5s ease-in-out infinite;
+}
+@keyframes btn-glow-out {
+  0%, 100% { box-shadow: 0 8px 32px rgba(239,68,68,0.35); }
+  50%       { box-shadow: 0 8px 48px rgba(239,68,68,0.6); }
+}
+
+/* ── Clock display tick animation ── */
+.clock-display {
+  transition: color 0.3s ease;
+  letter-spacing: -2px;
+}
+
+/* ── Pulse dot ring (live tracker) ── */
+.pulse-dot {
+  position: relative;
+}
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: var(--success);
+  opacity: 0;
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(0.8); opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ── History card entrance ── */
+.history-card {
+  animation: page-fade-in 0.4s cubic-bezier(0.16,1,0.3,1) 0.15s both;
+}
+
+/* ── History rows stagger ── */
+@keyframes row-enter {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+:host ::ng-deep .punch-table .p-datatable-body-row:nth-child(1) { animation: row-enter 0.2s 0.1s both; }
+:host ::ng-deep .punch-table .p-datatable-body-row:nth-child(2) { animation: row-enter 0.2s 0.15s both; }
+:host ::ng-deep .punch-table .p-datatable-body-row:nth-child(3) { animation: row-enter 0.2s 0.20s both; }
+:host ::ng-deep .punch-table .p-datatable-body-row:nth-child(4) { animation: row-enter 0.2s 0.25s both; }
+:host ::ng-deep .punch-table .p-datatable-body-row:nth-child(n+5) { animation: row-enter 0.2s 0.28s both; }
+
+/* ── Note input focus scale ── */
+.note-input:focus {
+  transform: scale(1.01);
+  transition: transform 0.15s ease;
+}
+
+/* ── Active punch row highlight pulse ── */
+:host ::ng-deep .punch-table .row-active {
+  animation: row-pulse 3s ease-in-out infinite;
+}
+@keyframes row-pulse {
+  0%, 100% { background: rgba(99,102,241,0.05) !important; }
+  50%       { background: rgba(99,102,241,0.10) !important; }
+}

@@ -1,0 +1,84 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 58px;
+  bottom: 0;
+  width: 56px;
+  background: var(--header-bg);
+  border-right: 1px solid var(--header-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  z-index: 90;
+  overflow: hidden;
+  transition: width 0.25s cubic-bezier(0.16,1,0.3,1);
+}
+.sidebar:hover {
+  width: 200px;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin: 0 6px;
+  text-decoration: none;
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+  overflow: hidden;
+}
+.sidebar-link:hover {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.9);
+}
+.sidebar-link.active {
+  background: rgba(99,102,241,0.18);
+  color: #a5b4fc;
+}
+.sidebar-link svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+.sidebar-label {
+  opacity: 0;
+  transition: opacity 0.2s 0.05s;
+}
+.sidebar:hover .sidebar-label {
+  opacity: 1;
+}
+
+/* Animation: sidebar links stagger in on mount */
+@keyframes sidebar-link-enter {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.sidebar-nav li {
+  animation: sidebar-link-enter 0.3s ease both;
+}
+.sidebar-nav li:nth-child(1) { animation-delay: 0.05s; }
+.sidebar-nav li:nth-child(2) { animation-delay: 0.09s; }
+.sidebar-nav li:nth-child(3) { animation-delay: 0.13s; }
+.sidebar-nav li:nth-child(4) { animation-delay: 0.17s; }
+.sidebar-nav li:nth-child(5) { animation-delay: 0.21s; }
+.sidebar-nav li:nth-child(n+6) { animation-delay: 0.24s; }
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+}
