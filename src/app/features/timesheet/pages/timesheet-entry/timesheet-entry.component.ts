@@ -221,18 +221,43 @@ private loadRows(): void {
   }
 
   setHours(row: EntryRow, date: string, hours: number): void {
-    const currentMinutes = this.getMinutes(row, date);
-    const total = hours + currentMinutes / 60;
-    row.hours[date] = Math.min(this.DAILY_MAX_HOURS, Math.max(0, total));
-    this.cdr.markForCheck();
+  const currentMinutes = this.getMinutes(row, date);
+  let total = hours + currentMinutes / 60;
+
+  const currentDayTotalExcludingRow =
+    this.getSelectedDayTotalInternal() - (row.hours[date] || 0);
+
+  if (currentDayTotalExcludingRow + total > this.REQUIRED_DAILY_HOURS) {
+    this.msgSvc.add({
+      severity: 'warn',
+      summary: 'Limit Exceeded',
+      detail: 'You cannot log more than 8 hours 30 minutes in a day.',
+    });
+    return;
   }
 
-  setMinutes(row: EntryRow, date: string, minutes: number): void {
-    const currentHours = this.getHours(row, date);
-    const total = currentHours + minutes / 60;
-    row.hours[date] = Math.min(this.DAILY_MAX_HOURS, Math.max(0, total));
-    this.cdr.markForCheck();
+  row.hours[date] = Math.min(this.DAILY_MAX_HOURS, Math.max(0, total));
+  this.cdr.markForCheck();
+}
+setMinutes(row: EntryRow, date: string, minutes: number): void {
+  const currentHours = this.getHours(row, date);
+  let total = currentHours + minutes / 60;
+
+  const currentDayTotalExcludingRow =
+    this.getSelectedDayTotalInternal() - (row.hours[date] || 0);
+
+  if (currentDayTotalExcludingRow + total > this.REQUIRED_DAILY_HOURS) {
+    this.msgSvc.add({
+      severity: 'warn',
+      summary: 'Limit Exceeded',
+      detail: 'You cannot log more than 8 hours 30 minutes in a day.',
+    });
+    return;
   }
+
+  row.hours[date] = Math.min(this.DAILY_MAX_HOURS, Math.max(0, total));
+  this.cdr.markForCheck();
+}
 
   getSelectedDayTotalFormatted(): string {
     if (!this.selectedDate) return '0 hours 0 minutes';
@@ -268,14 +293,24 @@ private loadRows(): void {
   }
 
   private validate(): string | null {
-    if (this.getSelectedDayTotalInternal() === 0) return 'Please log some hours before submitting.';
-    for (let i = 0; i < this.rows.length; i++) {
-      const r = this.rows[i];
-      if (!r.projectId) return `Row ${i + 1}: Please select a project.`;
-      if (!r.categoryId) return `Row ${i + 1}: Please select a task category.`;
-    }
-    return null;
+  const total = this.getSelectedDayTotalInternal();
+
+  if (total === 0) {
+    return 'Please log some hours before submitting.';
   }
+
+  if (total > this.REQUIRED_DAILY_HOURS) {
+    return 'Please fill timesheet correctly. Total hours cannot exceed 8 hours 30 minutes.';
+  }
+
+  for (let i = 0; i < this.rows.length; i++) {
+    const r = this.rows[i];
+    if (!r.projectId) return `Row ${i + 1}: Please select a project.`;
+    if (!r.categoryId) return `Row ${i + 1}: Please select a task category.`;
+  }
+
+  return null;
+}
 
   submitTimesheet(): void {
     const error = this.validate();

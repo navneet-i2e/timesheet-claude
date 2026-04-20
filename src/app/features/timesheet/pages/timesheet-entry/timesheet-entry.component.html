@@ -18,7 +18,8 @@
       </div>
       <div class="time-item">
         <span class="time-label">Hours Remaining</span>
-        <span class="time-value" [class.hours-warning]="getSelectedDayTotalInternal() < REQUIRED_DAILY_HOURS">
+        <span class="time-value" [class.hours-warning]="getSelectedDayTotalInternal() < REQUIRED_DAILY_HOURS"
+          [class.hours-error]="getSelectedDayTotalInternal() > REQUIRED_DAILY_HOURS">
           {{ getHoursRemaining() }}
         </span>
       </div>

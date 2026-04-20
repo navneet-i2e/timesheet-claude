@@ -490,3 +490,8 @@
     width: 100%;
   }
 }
+
+.hours-error {
+  color: #ff4d4f;
+  font-weight: 700;
+}
