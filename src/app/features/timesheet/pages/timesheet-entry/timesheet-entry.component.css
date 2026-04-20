@@ -331,3 +331,162 @@
 .date-view-table {
   animation: page-fade-in 0.45s cubic-bezier(0.16,1,0.3,1) 0.1s both;
 }
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE — Media Queries
+══════════════════════════════════════════════════════════ */
+
+/* Tablet and below */
+@media (max-width: 1024px) {
+  .ts-root {
+    padding: 20px 16px 40px;
+  }
+
+  .date-view-header {
+    padding: 16px 18px;
+  }
+
+  .table-header-row,
+  .table-body-row {
+    grid-template-columns: minmax(140px, 22%) minmax(120px, 18%) 1fr 70px 70px 48px;
+    gap: 10px;
+    padding: 10px 14px;
+  }
+}
+
+/* Mobile landscape and below */
+@media (max-width: 768px) {
+  .ts-root {
+    padding: 16px 12px 32px;
+  }
+
+  .date-view-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 14px 16px;
+  }
+
+  .date-nav-group {
+    justify-content: center;
+  }
+
+  .time-info {
+    justify-content: space-around;
+    gap: 16px;
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: stretch;
+  }
+
+  .action-buttons button {
+    width: 100% !important;
+    min-width: unset !important;
+  }
+
+  /* Mobile table - switch to card layout */
+  .table-header {
+    display: none;
+  }
+
+  .table-body {
+    padding: 12px;
+  }
+
+  .table-body-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "project project"
+      "activity activity"
+      "description description"
+      "hours minutes"
+      "actions actions";
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    background: var(--bg-surface);
+  }
+
+  .table-body-row:hover {
+    background: var(--bg-card-hover);
+  }
+
+  .table-body-row:last-child {
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .td-project { grid-area: project; }
+  .td-activity { grid-area: activity; }
+  .td-description { grid-area: description; }
+  .td-hours { grid-area: hours; }
+  .td-minutes { grid-area: minutes; }
+  .td-actions { grid-area: actions; }
+
+  .td-project,
+  .td-activity,
+  .td-description,
+  .td-hours,
+  .td-minutes,
+  .td-actions {
+    width: 100%;
+  }
+
+  .table-footer {
+    padding: 10px 12px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .ts-root {
+    padding: 12px 8px 24px;
+  }
+
+  .date-view-header {
+    padding: 12px;
+  }
+
+  .date-picker-main {
+    min-width: 140px;
+    font-size: 12px;
+  }
+
+  .time-info {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .time-item {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .time-label {
+    font-size: 11px;
+  }
+
+  .time-value {
+    font-size: 14px;
+  }
+
+  .table-body-row {
+    padding: 12px;
+  }
+
+  .td-actions {
+    position: static;
+    margin-top: 8px;
+  }
+
+  .td-actions button {
+    width: 100%;
+  }
+}
