@@ -501,14 +501,20 @@ export class DashboardHome implements OnInit, AfterViewInit, OnDestroy {
       });
       return;
     }
-    this.msgSvc.add({
-      severity: 'success',
-      summary: 'Request Submitted',
-      detail: `Access requested for ${selected.length} project(s). Your manager will be notified.`,
-    });
-    // Reset selections after request
+    const count = selected.length;
+    // Reset and close modal first
     this.allProjects.forEach((p) => (p.selected = false));
     this.showProjectModal = false;
+    this.cdr.markForCheck();
+    // Show toast after modal closes
+    setTimeout(() => {
+      this.msgSvc.add({
+        severity: 'success',
+        summary: 'Request Submitted',
+        detail: `Access requested for ${count} project(s). Your manager will be notified.`,
+      });
+      this.cdr.markForCheck();
+    }, 150);
   }
 
   clearProjectSearch(): void {
